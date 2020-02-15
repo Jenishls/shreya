@@ -111,30 +111,35 @@ Resturant Owner <br> Dashboard        </a></div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Item Name</label>
-                          <input type="text" class="form-control">
+                          <input type="text" id="item_name" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Item Quantity</label>
-                          <input type="number" class="form-control">
+                          <input type="number"  id="items" class="form-control">
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-  <label for="myfile">Select food images:</label>
-  <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
+                        <label for="myfile">Select food images:</label>
+                        <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Price</label>
-                          <input type="text" class="form-control">
+                          <input type="text"  id="item_price" class="form-control">
+                        </div>
+                      </div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Price</label>
+                          <textarea name="desc" id="desc" class="form-control"></textarea>
                         </div>
                       </div>
                     </div>
                    
-                    <button type="submit" class="btn btn-primary pull-right">Add Item</button>
+                    <button type="submit" class="btn btn-primary pull-right" id="add_menu_item">Add Item</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>
@@ -144,4 +149,47 @@ Resturant Owner <br> Dashboard        </a></div>
           </div>
         </div>
       </div>
+
+      !-- JS -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/axios.js"></script>
+    <script src="../js/validate.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('#add_menu_item').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            let valid = true
+            const price = $('#item_price').val();
+            const name = $('#item_name').val();
+            const desc = $('#desc').val();
+            const user_id = localStorage.getItem('user_id');
+
+            axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+            axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+            axios.post('http://localhost:7000/api/menu', {
+                    headers: {
+                        "Authorization": localStorage.getItem('accessToken')
+                    },
+                    title: name,
+                    price: price,
+                    desc: desc,
+                    user_id: user_id,
+                })
+                .then(function(response) {
+                    $.each(response.data, function(index, val) {
+                        localStorage.setItem(index, val)
+                    });
+                    window.location.href = "restaurant-owner/typography.html"
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+
+            });
+        });
+
+
+    </script>
      

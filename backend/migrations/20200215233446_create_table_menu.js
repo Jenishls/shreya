@@ -2,7 +2,7 @@
 exports.up = async function(knex, Promise) {
   await knex.schema.hasTable('menu')
 
-  return await knex.schema.createTable('users', (table) => {
+  return await knex.schema.createTable('menu', (table) => {
         table.increments('id')
 
         table.integer('user_id').unsigned()

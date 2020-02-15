@@ -67,7 +67,7 @@ const updateOrder = (req,res) => {
 		user_id: req.body.user_id,
         menu_id: req.body.menu_id,
         quantity: req.body.quantity,
-        status req.body.status,
+        status : req.body.status,
         price: req.body.price
 	})
 	.then(data => res.json({status:true}))
@@ -95,7 +95,7 @@ const deleteOrder = (req, res) => {
 }
 
 module.exports = {
-    "insertOrder": inserOrder,
+    "insertOrder": insertOrder,
     "getOrder" : getOrder,
     "getUserOrder" : getUserOrder,
     "updateOrder": updateOrder,

@@ -35,18 +35,51 @@
                      
 
                         <div class="form-submit">
-                            <input type="submit" value="Login" class="submit" id="submit" name="submit" />
+                            <input type="submit" value="Login" class="submit" id="btn-login" name="submit" />
                             <a href="index.html" class="vertify-booking">Go back to main page</a>
                         </div>
                     </form>
-                </div>
+                </div>  
             </div>
         </div>
 
     </div>
 
-    <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/main.js"></script>
+    !-- JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/validate.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('#btn-login').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            let valid = true
+            const email = $('#email').val();
+            const password = $('#password').val();
+
+            axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+            axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+            axios.post('http://localhost:7000/api/auth/register', {
+                    email: email,
+                    password: password,
+                })
+                .then(function(response) {
+                    $.each(response.data, function(index, val) {
+                        localStorage.setItem(index, val)
+                    });
+                    window.location.href = "restaurant-owner/index.html"
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+
+            });
+        });
+
+
+    </script>
+
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

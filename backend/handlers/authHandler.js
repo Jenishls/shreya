@@ -24,6 +24,7 @@ const register = (request,response) => {
       response.json({
         email: email,
         phone:phone,
+        isAdmin:0,
         user_id:data[0],
         status:'true',
         accessToken: jwt.sign({
@@ -45,7 +46,7 @@ const authenticate = (request,response) =>{
   const passwordFromJSON = request.body.password;
   knex
     .table('users')
-    .first('password','id')
+    .first('password','id','isAdmin')
     .where('email', email)
     .then(data => {
       if (!data) {
@@ -56,12 +57,14 @@ const authenticate = (request,response) =>{
       } else {
         const user_id = data.id;
         const password = data.password;
+        const isAdmin = data.isAdmin;
         const isMatch = bcrypt.compareSync(passwordFromJSON, password);
         if (isMatch) {
           // password matched
           response.json({
             email: email,
             user_id:user_id,
+            isAdmin:isAdmin,
             status:'true',
             accessToken: jwt.sign({
               email: email

@@ -1,17 +1,17 @@
 const config = require('../knexfile')
 const knex = require('knex')(config)
-const auth = require('../middleware/authMiddleware')
+// const auth = require('../middleware/authMiddleware')
 
 
 const insertMenu = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
 
     knex('menu')
         .insert({
             user_id: req.body.user_id,
             title: req.body.title,
             desc: req.body.desc,
-            img req.body.img,
+            img: "dsad",
             price: req.body.price
         })
         .then(data => {
@@ -50,7 +50,7 @@ const updateMenu = (req,res) => {
 		user_id: req.body.user_id,
         title: req.body.title,
         desc: req.body.desc,
-        img req.body.img,
+        // img req.body.img,
         price: req.body.price
 	})
 	.then(data => res.json({status:true}))
@@ -78,7 +78,7 @@ const deleteMenu = (req, res) => {
 }
 
 module.exports = {
-    "insertMenu": inserMenu,
+    "insertMenu": insertMenu,
     "getMenu" : getMenu,
     "updateMenu": updateMenu,
     "deleteMenu": deleteMenu

@@ -125,7 +125,7 @@ Resturant Owner <br> Dashboard        </a></div>
                         </th>
                         
                       </thead>
-                      <tbody>
+                      <tbody id="items_table">
                         <tr>
                           <td>1</td>
                           <td><input type="text" name="itemname" value="pizza big size" class="form-control"></td>
@@ -133,24 +133,9 @@ Resturant Owner <br> Dashboard        </a></div>
                           <td><input type="number" name="itemprice" value="600" class="form-control"></td>
                           <td>
                             <div class="col-md-16">
-  <label for="myfile">Select food images:</label>
-  <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
-                      </div>
-                          </td>
-                          <td><input type="submit" name="update" value="update as entered"></td>
-                          <td><input type="submit" name="delete" value="delete this item"></td>
-                        </tr>
-                       
-                       <tr>
-                          <td>1</td>
-                          <td><input type="text" name="itemname" value="pizza big small" class="form-control"></td>
-                          <td><input type="number" name="itemquantity" value="60" class="form-control"></td>
-                          <td><input type="number" name="itemprice" value="300" class="form-control"></td>
-                          <td>
-                            <div class="col-md-16">
-  <label for="myfile">Select food images:</label>
-  <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
-                      </div>
+                              <label for="myfile">Select food images:</label>
+                              <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
+                          </div>
                           </td>
                           <td><input type="submit" name="update" value="update as entered"></td>
                           <td><input type="submit" name="delete" value="delete this item"></td>
@@ -166,4 +151,45 @@ Resturant Owner <br> Dashboard        </a></div>
       
     </div>
   </div>
+
+    !-- JS -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/axios.js"></script>
+    <script src="../js/validate.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+            axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+            axios.get('http://localhost:7000/api/menu')
+                .then(function(response) {
+                  let tr ="";
+                    $.each(response.data, function(index, val) {
+                        tr += `<tr>
+                                <td>1</td>
+                                <td><input type="text" name="itemname" value="pizza big size" class="form-control"></td>
+                                <td><input type="number" name="itemquantity" value="30" class="form-control"></td>
+                                <td><input type="number" name="itemprice" value="600" class="form-control"></td>
+                                <td>
+                                  <div class="col-md-16">
+                                    <label for="myfile">Select food images:</label>
+                                    <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
+                                </div>
+                                </td>
+                                <td><input type="submit" name="update" value="update as entered"></td>
+                                <td><input type="submit" name="delete" value="delete this item"></td>
+                              </tr>`;
+                    });
+
+                    $('#items_table').html(tr);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+
+            });
+        // });
+
+
+    </script>
  
