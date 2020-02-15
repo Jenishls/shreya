@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <!-- <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css"> -->
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/login-style.css">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="images/form-img.jpg" alt="Booking Image">
+                </div>
+                <div class="booking-form">
+                    <form id="booking-form">
+                        <h2>Sign Up</h2>
+                        <div class="form-group form-input">
+                            <input type="text" name="name" id="name" value="" required/>
+                            <label for="name" class="form-label">Enter name</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="number" name="phone" id="phone" value="" required />
+                            <label for="phone" class="form-label">Enter phone number</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="email" name="email" id="email" value="" required />
+                            <label for="email" class="form-label">Enter email address</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="password" name="password" id="password" value="" required />
+                            <label for="password" class="form-label">Enter password</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="password" name="password" id="confirm" value="" required />
+                            <label for="password" class="form-label">Enter confirm password</label>
+                        </div>
+                        
+                        
+
+                        <div class="form-submit">
+                            <input type="submit" value="Sign Up" class="submit" id="btn-register" name="submit" />
+                            <a href="index.html" class="vertify-booking">Go back to main page</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/validate.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('#btn-register').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            let valid = true
+            const name = $('#name').val();
+            const email = $('#email').val();
+            const password = $('#password').val();
+            const confirm = $('#confirm').val();
+            const phone = $('#phone').val();
+
+            validate(confirm,'Confirm Password')?'': valid = false
+            validate(password,'Password')?'': valid = false
+            validate(email,'Email')?'': valid = false
+            validate(name,'Name')?'': valid = false
+            validate(phone,'Phone')?'': valid = false
+
+            if(valid){
+                axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+                axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+                axios.post('http://localhost:7000/api/auth/register', {
+                        name: name,
+                        email: email,
+                        password: password,
+                        phone:phone
+                    })
+                    .then(function(response) {
+                        $.each(response.data, function(index, val) {
+                            localStorage.setItem(index, val)
+                        });
+                        window.location.href = "index.html"
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+            }
+
+            });
+        });
+
+        $('#confirm').on('blur', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            if ($('#confirm').val() !== $('#password').val()) {
+                alert( "New password and Confirm password mismatch")
+                $('#confirm').css('border', '1px solid red');
+                $('#password').css('border', '1px solid red');
+                $('#btn-register').attr('disabled', 'disabled');
+            } else {
+                $('#btn-register').removeAttr('disabled');
+                $('#password').css('border', 'none');
+                $('#password').css('border-bottom', '1px solid rgb(153, 153, 153)');
+                $('#confirm').css('border', 'none');
+                $('#confirm').css('border-bottom', '1px solid rgb(153, 153, 153)');
+            }
+
+        });
+
+    </script>
+</body>
+</html>
