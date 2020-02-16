@@ -91,6 +91,8 @@
                         phone:phone
                     })
                     .then(function(response) {
+                    console.log(response)
+                        
                         $.each(response.data, function(index, val) {
                             localStorage.setItem(index, val)
                         });

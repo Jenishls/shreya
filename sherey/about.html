@@ -41,8 +41,8 @@
             <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li>
             <li class="nav-item active" ><a href="about.html" class="nav-link">About</a></li>
             <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-            <li class="nav-item"><a href="signup.html" class="nav-link">Sign Up</a></li>
-            <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+            <li class="nav-item"><a class="nav-link" style="cursor: pointer;" id="dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link"  style="cursor: pointer;" id="logout">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -359,9 +359,31 @@
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/jquery.timepicker.min.js"></script>
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
     
+  <script type="text/javascript">
+    $(document).ready(function(e){
+      let user_id = localStorage.getItem('user_id');
+      if(!user_id){
+        window.location.href = "login.html"
+      }
+    })
+    $('#dashboard').on('click', function(e){
+      let isAdmin = localStorage.getItem('isAdmin');
+      console.log(isAdmin)
+      if(isAdmin == 1){
+        window.location.href = "resturant-owner/index.html"
+      }
+      else{
+        window.location.href = "resturant-user/index.html"
+      }
+    })
+
+    $('#logout').on('click', function(e){
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('user_id');
+      window.location.href = "login.html"
+    })
+  </script>
   </body>
 </html>

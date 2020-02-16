@@ -26,7 +26,7 @@ const insertMenu = (req, res) => {
 }
 
 const getMenu = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
 
     knex('menu')
         .select('*')
@@ -42,7 +42,7 @@ const getMenu = (req, res) => {
 }
 
 const updateMenu = (req,res) => {
-	auth.check(req,res)
+	// auth.check(req,res)
 
 	knex('menu')
 	.where('id',req.params.id)
@@ -60,8 +60,26 @@ const updateMenu = (req,res) => {
 	})
 }
 
+const bcrypt = require('bcrypt');
+
+const updateUser = (req, res) => {
+    knex('users')
+        .where('id', req.params.id)
+        .update({
+            name: req.body.name,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 10)
+        })
+        .then(data => res.json({ status: true }))
+        .catch(error => {
+            console.log(error)
+            res.json({ status: false })
+        })
+
+}
+
 const deleteMenu = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
     knex('menu')
         .where('id', req.params.id)
         .del()
@@ -81,5 +99,6 @@ module.exports = {
     "insertMenu": insertMenu,
     "getMenu" : getMenu,
     "updateMenu": updateMenu,
+    "updateUser": updateUser,
     "deleteMenu": deleteMenu
 }

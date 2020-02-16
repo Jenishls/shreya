@@ -10,7 +10,7 @@ const updateUser = (req, res) => {
         .update({
             name: req.body.name,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.new, 10)
+            password: bcrypt.hashSync(req.body.password, 10)
         })
         .then(data => res.json({ status: true }))
         .catch(error => {

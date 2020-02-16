@@ -115,32 +115,13 @@ Resturant Owner <br> Dashboard        </a></div>
                           Item Name
                         </th>
                         <th>
-                          Quantity
-                        </th>
-                        <th>
                           Price
                         </th>
                         <th>
-                          Choose New Image
+                          Description
                         </th>
-                        
                       </thead>
                       <tbody id="items_table">
-                        <tr>
-                          <td>1</td>
-                          <td><input type="text" name="itemname" value="pizza big size" class="form-control"></td>
-                          <td><input type="number" name="itemquantity" value="30" class="form-control"></td>
-                          <td><input type="number" name="itemprice" value="600" class="form-control"></td>
-                          <td>
-                            <div class="col-md-16">
-                              <label for="myfile">Select food images:</label>
-                              <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
-                          </div>
-                          </td>
-                          <td><input type="submit" name="update" value="update as entered"></td>
-                          <td><input type="submit" name="delete" value="delete this item"></td>
-                        </tr>
-                       
                       </tbody>
                     </table>
                   </div>
@@ -165,19 +146,16 @@ Resturant Owner <br> Dashboard        </a></div>
                 .then(function(response) {
                   let tr ="";
                     $.each(response.data, function(index, val) {
+                      console.log(val)
                         tr += `<tr>
-                                <td>1</td>
-                                <td><input type="text" name="itemname" value="pizza big size" class="form-control"></td>
-                                <td><input type="number" name="itemquantity" value="30" class="form-control"></td>
-                                <td><input type="number" name="itemprice" value="600" class="form-control"></td>
+                                <td>${val.id}</td>
+                                <td><input type="text" name="itemname" value="${val.title}" class="form-control item_name"></td>
+                                <td><input type="number" name="itemprice" value="${val.price}" class="form-control item_price"></td>
+                                <td><input type="text" name="itemdesc" value="${val.desc}" class="form-control item_desc"></td>
                                 <td>
-                                  <div class="col-md-16">
-                                    <label for="myfile">Select food images:</label>
-                                    <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
-                                </div>
+                                  <input type="submit" name="update"class="update_item" data-id="${val.id}" value="update as entered">
                                 </td>
-                                <td><input type="submit" name="update" value="update as entered"></td>
-                                <td><input type="submit" name="delete" value="delete this item"></td>
+                                <td><input type="submit" name="delete" class="delete_item" data-id="${val.id}" value="delete this item"></td>
                               </tr>`;
                     });
 
@@ -189,6 +167,85 @@ Resturant Owner <br> Dashboard        </a></div>
 
             });
         // });
+
+        $(document).off('click', '.update_item').on('click', '.update_item', function(e){
+          e.preventDefault();
+          console.log
+          let id = $(this).attr('data-id');
+          let price = $(this).closest('tr').find('.item_price').val();
+          let name = $(this).closest('tr').find('.item_name').val();
+          let desc = $(this).closest('tr').find('.item_desc').val();
+          update_item(id, price, name, desc);
+        })
+
+        $(document).off('click', '.delete_item').on('click', '.delete_item', function(e){
+          e.preventDefault();
+          let id = $(this).attr('data-id');
+          delete_item(id);
+        })
+
+        function update_item(id, price, name, desc){
+          console.log(id, name, price, desc)
+
+          const user_id = localStorage.getItem('user_id');
+          axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+          axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          axios.put('http://localhost:7000/api/menu/'+id,{
+                    headers: {
+                        "Authorization": localStorage.getItem('accessToken')
+                    },
+                    title: name,
+                    price: price,
+                    desc: desc,
+                    user_id: user_id,
+                })
+              .then(function(response) {
+                // let tr ="";
+                //   $.each(response.data, function(index, val) {
+                  //   console.log(val)
+                  //     tr += `<tr>
+                  //             <td>${val.id}</td>
+                  //             <td><input type="text" name="itemname" value="${val.title}" class="form-control"></td>
+                  //             <td><input type="number" name="itemprice" value="${val.price}" class="form-control"></td>
+                  //             <td><input type="text" name="itemdesc" value="${val.desc}" class="form-control"></td>
+                  //             <td><input type="submit" name="update" class="update_item" data-id="${val.desc}" value="update as entered"></td>
+                  //             <td><input type="submit" name="delete" class="delete_item" data-id="${val.desc}" value="delete this item"></td>
+                  //           </tr>`;
+                  // });
+
+                  // $('#items_table').html(tr);
+              })
+              .catch(function(error) {
+                  console.log(error);
+              })
+            }
+
+
+        function delete_item(id){
+          const user_id = localStorage.getItem('user_id');
+          axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+          axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          axios.delete('http://localhost:7000/api/menu/'+id)
+              .then(function(response) {
+                // let tr ="";
+                //   $.each(response.data, function(index, val) {
+                  //   console.log(val)
+                  //     tr += `<tr>
+                  //             <td>${val.id}</td>
+                  //             <td><input type="text" name="itemname" value="${val.title}" class="form-control"></td>
+                  //             <td><input type="number" name="itemprice" value="${val.price}" class="form-control"></td>
+                  //             <td><input type="text" name="itemdesc" value="${val.desc}" class="form-control"></td>
+                  //             <td><input type="submit" name="update" class="update_item" data-id="${val.desc}" value="update as entered"></td>
+                  //             <td><input type="submit" name="delete" class="delete_item" data-id="${val.desc}" value="delete this item"></td>
+                  //           </tr>`;
+                  // });
+
+                  // $('#items_table').html(tr);
+              })
+              .catch(function(error) {
+                  console.log(error);
+              })
+            }
 
 
     </script>

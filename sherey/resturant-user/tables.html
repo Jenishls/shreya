@@ -116,41 +116,12 @@ User <br> Dashboard        </a></div>
                           Price per quantity
                         </th>
                         <th>
-                          Image
-                        </th>
-                        <th>
                           Order Status
                         </th>
                         
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td><input type="text" name="itemname" value="pizza big size" class="form-control" disabled=""></td>
-                          <td><input type="number" name="itemquantity" value="3" class="form-control"></td>
-                          <td><input type="number" name="itemprice" value="600" class="form-control" disabled=""></td>
-                          <td>
-                            <img src="images/bg_1.png" style="height: 100px;">
-                      </div>
-                          </td>
-                          <td>Processing...</td>
-                          <td><input type="submit" name="update" value="update the quantity"></td>
-                          <td><input type="submit" name="delete" value="cancel this order"></td>
-                        </tr>
-                       <tr>
-                          <td>1</td>
-                          <td><input type="text" name="itemname" value="pasta" class="form-control" disabled=""></td>
-                          <td><input type="number" name="itemquantity" value="2" class="form-control"></td>
-                          <td><input type="number" name="itemprice" value="200" class="form-control" disabled=""></td>
-                          <td>
-                            <img src="images/pasta-2.jpg" style="height: 100px;">
-                      </div>
-                          </td>
-                          <td>On its way</td>
-                          <td><input type="submit" name="update" value="update the quantity"></td>
-                          <td><input type="submit" name="delete" value="cancel this order"></td>
-                        </tr>
-                       
+                      <tbody id="order-list-contaier">
+                        
                       </tbody>
                     </table>
                   </div>
@@ -165,6 +136,117 @@ User <br> Dashboard        </a></div>
       
     </div>
   </div>
+
+  !-- JS -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/axios.js"></script>
+    <script src="../js/validate.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          const user_id = localStorage.getItem('user_id');
+            axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+            axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+            axios.get('http://localhost:7000/api/order/'+user_id)
+                .then(function(response) {
+                  let tr ="";
+                    $.each(response.data, function(index, val) {
+                      console.log(val)
+                        tr += `<tr>
+                          <td>${val.id}</td>
+                          <td><input type="text" name="itemname" value="${val.title}" class="form-control" disabled=""></td>
+                          <td class="qty_td"><input type="number" class="order_qty" name="itemquantity" value="${val.quantity}" class="form-control"></td>
+                          <td><input type="number" name="itemprice" value="${val.price}" class="form-control" disabled=""></td>
+                          <td>Processing...</td>
+                          <td><input type="submit" name="update" class="update_order" data-id="${val.id}" value="update the quantity"></td>
+                          <td><input type="submit" name="delete" class="delete_order" data-id="${val.id}" value="cancel this order"></td>
+                        </tr>`;
+                    });
+
+                    $('#order-list-contaier').html(tr);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+
+            });
+        // });
+
+        $(document).off('click', '.update_order').on('click', '.update_order', function(e){
+          e.preventDefault();
+          console.log('clicked')
+          let id = $(this).attr('data-id');
+          let qty = $(this).closest('tr').find('.order_qty').val();
+          update_order(id, qty);
+        })
+
+        $(document).off('click', '.delete_order').on('click', '.delete_order', function(e){
+          e.preventDefault();
+          let id = $(this).attr('data-id');
+          delete_order(id);
+        })
+
+        function update_order(id, qty){
+          console.log(id, qty)
+          axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+          axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          axios.put('http://localhost:7000/api/order/update/'+id,{
+                    headers: {
+                        "Authorization": localStorage.getItem('accessToken')
+                    },
+                    quantity: qty,
+                })
+              .then(function(response) {
+                // let tr ="";
+                //   $.each(response.data, function(index, val) {
+                  //   console.log(val)
+                  //     tr += `<tr>
+                  //             <td>${val.id}</td>
+                  //             <td><input type="text" name="itemname" value="${val.title}" class="form-control"></td>
+                  //             <td><input type="number" name="itemprice" value="${val.price}" class="form-control"></td>
+                  //             <td><input type="text" name="itemdesc" value="${val.desc}" class="form-control"></td>
+                  //             <td><input type="submit" name="update" class="update_order" data-id="${val.desc}" value="update as entered"></td>
+                  //             <td><input type="submit" name="delete" class="delete_order" data-id="${val.desc}" value="delete this item"></td>
+                  //           </tr>`;
+                  // });
+
+                  // $('#items_table').html(tr);
+              })
+              .catch(function(error) {
+                  console.log(error);
+              })
+            }
+
+
+        function delete_order(id){
+          const user_id = localStorage.getItem('user_id');
+          axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+          axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          axios.delete('http://localhost:7000/api/order/'+id)
+              .then(function(response) {
+                // let tr ="";
+                //   $.each(response.data, function(index, val) {
+                  //   console.log(val)
+                  //     tr += `<tr>
+                  //             <td>${val.id}</td>
+                  //             <td><input type="text" name="itemname" value="${val.title}" class="form-control"></td>
+                  //             <td><input type="number" name="itemprice" value="${val.price}" class="form-control"></td>
+                  //             <td><input type="text" name="itemdesc" value="${val.desc}" class="form-control"></td>
+                  //             <td><input type="submit" name="update" class="update_order" data-id="${val.desc}" value="update as entered"></td>
+                  //             <td><input type="submit" name="delete" class="delete_item" data-id="${val.desc}" value="delete this item"></td>
+                  //           </tr>`;
+                  // });
+
+                  // $('#items_table').html(tr);
+              })
+              .catch(function(error) {
+                  console.log(error);
+              })
+            }
+
+
+    </script>
+
  
 </body>
 

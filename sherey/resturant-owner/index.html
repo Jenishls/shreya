@@ -87,7 +87,7 @@ Resturant Owner <br> Dashboard        </a></div>
               
               <li class="nav-item dropdown">
 
-                            <input type="submit" value="Logout" class="fa fa-sign-out" id="submit" name="submit" />
+                            <input type="submit" id="logout" value="Logout" class="fa fa-sign-out" name="submit" />
 
                
                
@@ -179,7 +179,15 @@ Resturant Owner <br> Dashboard        </a></div>
           </div>
         </div>
       </div>
-     
+     <script src="../js/jquery.min.js"></script>
+   
+     <script type="text/javascript">
+       $('#logout').on('click', function(e){
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('user_id');
+      window.location.href = "../login.html"
+    })
+     </script>
 </body>
 
 </html>

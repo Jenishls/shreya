@@ -4,7 +4,7 @@ const handlers = require('../handlers/orderHandler')
 routes.post('/order', handlers.insertOrder)
 routes.get('/order', handlers.getOrder)
 routes.get('/order/:id', handlers.getUserOrder)
-routes.put('/update/:id', handlers.updateOrder)
+routes.put('/order/update/:id', handlers.updateOrder)
 routes.delete('/order/:id', handlers.deleteOrder)
 
 

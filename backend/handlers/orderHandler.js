@@ -4,13 +4,13 @@ const auth = require('../middleware/authMiddleware')
 
 
 const insertOrder = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
 
     knex('order')
         .insert({
             user_id: req.body.user_id,
-            title: req.body.menu_id,
-            desc: req.body.quantity,
+            menu_id: req.body.menu_id,
+            quantity: req.body.quantity,
             price: req.body.price,
             status: 'On-process',
         })
@@ -26,10 +26,12 @@ const insertOrder = (req, res) => {
 }
 
 const getOrder = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
 
     knex('order')
-        .select('*')
+        .select('menu.*','users.*','order.*')
+        .join('menu', 'menu.id', '=', 'order.menu_id')
+        .join('users', 'users.id', '=', 'order.user_id')
         .then(data => {
             res.json(data)
         })
@@ -42,11 +44,12 @@ const getOrder = (req, res) => {
 }
 
 const getUserOrder = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
 
     knex('order')
-        .select('*')
-        .where('user_id',req.params.user_id)
+        .select('menu.*','order.*')
+        .join('menu', 'menu.id', '=', 'order.menu_id')
+        .where('order.user_id',req.params.id)
         .then(data => {
             res.json(data)
         })
@@ -59,26 +62,22 @@ const getUserOrder = (req, res) => {
 }
 
 const updateOrder = (req,res) => {
-	auth.check(req,res)
+	// auth.check(req,res)
 
 	knex('order')
 	.where('id',req.params.id)
 	.update({
-		user_id: req.body.user_id,
-        menu_id: req.body.menu_id,
-        quantity: req.body.quantity,
-        status : req.body.status,
-        price: req.body.price
+		quantity: req.body.quantity,
 	})
 	.then(data => res.json({status:true}))
 	.catch(error=>{
 		console.log(error)
-		res.json({status:flase})
+		res.json({status:false})
 	})
 }
 
 const deleteOrder = (req, res) => {
-    auth.check(req, res)
+    // auth.check(req, res)
     knex('order')
         .where('id', req.params.id)
         .del()

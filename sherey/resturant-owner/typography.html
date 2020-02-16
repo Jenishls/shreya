@@ -123,17 +123,17 @@ Resturant Owner <br> Dashboard        </a></div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-                        <label for="myfile">Select food images:</label>
-                        <input type="file" id="myfile" class="form-control" name="myfile" multiple><br><br>
-                      </div>
-                      <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Price</label>
                           <input type="text"  id="item_price" class="form-control">
                         </div>
-                      </div class="col-md-12">
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                      </div class="col-md-12" style="width:100%;">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Price</label>
+                          <label class="bmd-label-floating">Description</label>
                           <textarea name="desc" id="desc" class="form-control"></textarea>
                         </div>
                       </div>
@@ -181,7 +181,7 @@ Resturant Owner <br> Dashboard        </a></div>
                     $.each(response.data, function(index, val) {
                         localStorage.setItem(index, val)
                     });
-                    window.location.href = "restaurant-owner/typography.html"
+                    window.location.href = "typography.html"
                 })
                 .catch(function(error) {
                     console.log(error);

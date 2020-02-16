@@ -27,12 +27,19 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
+    <style type="text/css">
+      .ftco-animate {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    </style>
   </head>
   <body>
   	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
               <a class="navbar-brand" href="index.html"><img style="height: 100px;" src="images/logo.jpg"></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+
                 <span class="oi oi-menu"></span> Menu
               </button>
           <div class="collapse navbar-collapse" id="ftco-nav">
@@ -41,8 +48,8 @@
               <li class="nav-item active"><a href="menu.html" class="nav-link">Menu</a></li>
               <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
             <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-            <li class="nav-item"><a href="signup.html" class="nav-link">Sign Up</a></li>
-              <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+            <li class="nav-item"><a class="nav-link" style="cursor: pointer;" id="dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link"  style="cursor: pointer;" id="logout">Logout</a></li>
             </ul>
           </div>
           </div>
@@ -76,68 +83,8 @@
         </div>
     	</div>
     	<div class="container-wrap">
-    		<div class="row no-gutters d-flex">
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img" style="background-image: url(images/pizza-1.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>Italian Pizza</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia </p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img" style="background-image: url(images/pizza-2.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>Greek Pizza</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img" style="background-image: url(images/pizza-3.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>Caucasian Pizza</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
-
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img order-lg-last" style="background-image: url(images/pizza-4.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>American Pizza</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia </p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img order-lg-last" style="background-image: url(images/pizza-5.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>Tomatoe Pie</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-4 d-flex ftco-animate">
-    				<div class="services-wrap d-flex">
-    					<a href="#" class="img order-lg-last" style="background-image: url(images/pizza-6.jpg);"></a>
-    					<div class="text p-4">
-    						<h3>Margherita</h3>
-    						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-    						<p class="price"><span>$2.90</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
-    					</div>
-    				</div>
-    			</div>
+    		<div class="row no-gutters d-flex" id="menu_item_container">
+    			
     		</div>
     	</div>
 
@@ -162,9 +109,96 @@
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/jquery.timepicker.min.js"></script>
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
-    
+  <script src="js/jquery.min.js"></script>
+    <script src="js/axios.js"></script>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.get('http://localhost:7000/api/menu')
+        .then(function(response) {
+          let tr ="";
+            $.each(response.data, function(index, val) {
+                tr += `<div class="col-lg-4 d-flex ftco-animate">
+                        <div class="services-wrap d-flex">
+                          <a href="#" class="img" style="background-image: url(images/pizza-1.jpg);"></a>
+                          <div class="text p-4">
+                            <h3>${val.title}</h3>
+                            <p>${val.desc}</p>
+                            <p class="price"><span>$${val.price}</span>
+                              <input type="number" name="qty" class="item_qty" style="width:30%;"> 
+                              <a style="cursor:pointer;" data-price="${val.price}" data-id="${val.id}" class="ml-2 btn btn-white btn-outline-white make_order">Order</a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                `;
+            });
+
+            $('#menu_item_container').html(tr);
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
+
+    });
+
+  $(document).off('click', '.make_order').on('click', '.make_order', function(e){
+        // event.preventDefault();
+        console.log('click');
+        const price = $(this).attr('data-price');
+        const qty = $(this).parent().children('.item_qty').val();
+        const user_id = localStorage.getItem('user_id');
+        const menu_id = $(this).attr('data-id');
+
+        axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+        axios.post('http://localhost:7000/api/order', {
+            headers: {
+                "Authorization": localStorage.getItem('accessToken')
+            },
+            menu_id: menu_id,
+            price: price,
+            quantity: qty,
+            user_id: user_id,
+        })
+        .then(function(response) {
+            $.each(response.data, function(index, val) {
+                localStorage.setItem(index, val)
+            });
+            window.location.href = "menu.html"
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
+    });
+
+  </script>
+    <script type="text/javascript">
+    $(document).ready(function(e){
+      let user_id = localStorage.getItem('user_id');
+      if(!user_id){
+        window.location.href = "login.html"
+      }
+    })
+    $('#dashboard').on('click', function(e){
+      let isAdmin = localStorage.getItem('isAdmin');
+      console.log(isAdmin)
+      if(isAdmin == 1){
+        window.location.href = "resturant-owner/index.html"
+      }
+      else{
+        window.location.href = "resturant-user/index.html"
+      }
+    })
+
+    $('#logout').on('click', function(e){
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('user_id');
+      window.location.href = "login.html"
+    })
+  </script>
   </body>
 </html>
